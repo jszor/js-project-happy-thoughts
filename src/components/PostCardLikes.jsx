@@ -21,14 +21,23 @@ const LikesStyled = styled.span`
 const PostCardLikes = ({ likes }) => {
 
   const [liked, setLiked] = useState(false)
+  const [likesCount, setLikesCount] = useState(likes)
 
   const handleLike = () => {
+    if (liked) {
+      setLikesCount(prev => prev - 1)
+    } else {
+      setLikesCount(prev => prev + 1)
+    }
     setLiked(!liked)
   }
+
+
+
   return (
     <div>
       <HeartStyled liked={liked} onClick={handleLike}>❤️</HeartStyled>
-      <LikesStyled>x {likes}</LikesStyled>
+      <LikesStyled>x {likesCount}</LikesStyled>
     </div>
   )
 }
