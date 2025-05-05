@@ -16,8 +16,13 @@ const ButtonStyled = styled.button`
 `
 
 const CreatePostCardButton = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   return (
-    <ButtonStyled type="submit">
+    <ButtonStyled type="submit" onClick={() => handleSubmit}>
       ❤️ Send In ❤️
     </ButtonStyled>
   )

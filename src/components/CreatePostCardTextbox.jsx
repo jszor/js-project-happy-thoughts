@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const TextareaStyled = styled.textarea`
   resize: none;
   margin: 1rem 0 1rem 0;
+  padding: 1rem;
 `
 
 const CreatePostCardTextbox = () => {
