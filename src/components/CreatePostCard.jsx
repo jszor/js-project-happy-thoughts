@@ -13,11 +13,14 @@ const CreatePostCardStyled = styled.div`
   box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
 `
 
-const CreatePostCard = () => {
+const CreatePostCard = ({ message, setMessage, onSubmit }) => {
   return (
     <CreatePostCardStyled>
-      <CreatePostCardTextbox />
-      <CreatePostCardButton />
+      <CreatePostCardTextbox 
+        message={message} 
+        setMessage={setMessage} 
+      />
+      <CreatePostCardButton onSubmit={onSubmit} />
     </CreatePostCardStyled>
   )
 }

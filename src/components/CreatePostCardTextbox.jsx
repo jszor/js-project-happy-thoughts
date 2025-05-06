@@ -6,17 +6,17 @@ const TextareaStyled = styled.textarea`
   padding: 1rem;
 `
 
-const CreatePostCardTextbox = () => {
+const CreatePostCardTextbox = ({ message, setMessage }) => {
   return (
     <>
-      <label for="happy-thoughts">
+      <p>
         What's making you happy right now?
-      </label>
+      </p>
       <TextareaStyled 
-        name="happy-thought" 
-        id="happy-thoughts"
-        placeholder="Your thoughts here..."
         rows="3"
+        placeholder="Your thoughts here..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
       ></TextareaStyled>
     </>
   )

@@ -15,14 +15,10 @@ const ButtonStyled = styled.button`
   align-self: center;
 `
 
-const CreatePostCardButton = () => {
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  }
+const CreatePostCardButton = ({ onSubmit }) => {
 
   return (
-    <ButtonStyled type="submit" onClick={() => handleSubmit}>
+    <ButtonStyled onClick={onSubmit}>
       ❤️ Send In ❤️
     </ButtonStyled>
   )

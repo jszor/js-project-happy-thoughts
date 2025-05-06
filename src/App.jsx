@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import CreatePostCard from './components/CreatePostCard'
 import PostCard from './components/PostCard'
 import styled from 'styled-components'
@@ -12,16 +13,80 @@ const PostWrapper = styled.div`
 `
 
 export const App = () => {
+
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+        console.error('Error fetching posts:', err)
+    } finally {
+        setLoading(false);
+    }
+  }
+
+  useEffect(()=> {
+    fetchPosts();
+  }, [])
+
+  const handleSubmit = async () => {
+    if (message.trim() === '') return
+
+    try {
+      const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to post message')
+      }
+
+      const newPost = await res.json()
+      
+      setPosts([newPost, ...posts]);
+      setMessage('');
+
+    } catch (err) {
+      console.error('Error posting message:', err);
+    }
+  }
+
   return (
     <AppWrapper>
-      <CreatePostCard />
+      <CreatePostCard
+      message={message} 
+      setMessage={setMessage} 
+      onSubmit={handleSubmit} 
+      />
       <PostWrapper>
-        <PostCard message="I'm happy because we just moved into a new apartment!" likes="0" time="30 seconds ago" />
-        <PostCard message="It's my birthday!" likes="10" time="10 minutes ago" />
-        <PostCard message="I'm happy because the sun is out :)" likes="23" time="15 minutes ago" />
+        {loading ? (
+          <p>Loading happy thoughts...</p>
+        ) : (
+          posts.map(post => (
+            <PostCard
+              key={post._id}
+              message={post.message}
+              likes={post.hearts}
+              time={new Date(post.createdAt).toLocaleString()} 
+            />
+          ))
+        )}
       </PostWrapper>
     </AppWrapper>
   )
 }
 
-export default App 
+export default App

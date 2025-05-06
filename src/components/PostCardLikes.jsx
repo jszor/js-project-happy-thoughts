@@ -32,8 +32,6 @@ const PostCardLikes = ({ likes }) => {
     setLiked(!liked)
   }
 
-
-
   return (
     <div>
       <HeartStyled liked={liked} onClick={handleLike}>❤️</HeartStyled>
