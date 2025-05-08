@@ -12,6 +12,11 @@ const PostWrapper = styled.div`
   margin-top: 1rem;
 `
 
+const LoadingStyled = styled.p`
+  text-align: center;
+  margin: 3rem;
+`
+
 export const App = () => {
 
   const [message, setMessage] = useState('');
@@ -73,7 +78,7 @@ export const App = () => {
       />
       <PostWrapper>
         {loading ? (
-          <p>Loading happy thoughts...</p>
+          <LoadingStyled>Loading happy thoughts...</LoadingStyled>
         ) : (
           posts.map(post => (
             <PostCard
