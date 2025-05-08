@@ -18,18 +18,27 @@ const LikesStyled = styled.span`
   margin-left: 0.25rem;
 `
 
-const PostCardLikes = ({ likes }) => {
+const PostCardLikes = ({ likes, postId }) => {
 
   const [liked, setLiked] = useState(false)
   const [likesCount, setLikesCount] = useState(likes)
 
-  const handleLike = () => {
-    if (liked) {
-      setLikesCount(prev => prev - 1)
-    } else {
-      setLikesCount(prev => prev + 1)
+  const handleLike = async () => {
+    if (liked) return
+    
+    try {
+      const url = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${postId}/like`;
+      const res = await fetch(url, { method: 'POST' });
+    
+      if (!res.ok) {
+        throw new Error('Failed to like post')
+      }
+      setLiked(true);
+      setLikesCount(likesCount + 1);
+
+    } catch (err) {
+      console.error('Error liking post:', err);
     }
-    setLiked(!liked)
   }
 
   return (
@@ -39,5 +48,6 @@ const PostCardLikes = ({ likes }) => {
     </div>
   )
 }
+
 
 export default PostCardLikes

@@ -78,6 +78,7 @@ export const App = () => {
           posts.map(post => (
             <PostCard
               key={post._id}
+              id={post._id}
               message={post.message}
               likes={post.hearts}
               time={new Date(post.createdAt).toLocaleString()} 

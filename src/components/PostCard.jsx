@@ -23,12 +23,12 @@ const PostCardInfoStyled = styled.div`
   margin: 1.25rem 0 0.5rem 0;
 `
 
-const PostCard = ({ message, likes, time }) => {
+const PostCard = ({ id, message, likes, time }) => {
   return (
     <PostCardStyled>
       <PostCardMessage message={message} />
       <PostCardInfoStyled>
-        <PostCardLikes likes={likes} /> 
+        <PostCardLikes likes={likes} postId={id} /> 
         <PostCardTime time={time} />
       </PostCardInfoStyled>
     </PostCardStyled>
