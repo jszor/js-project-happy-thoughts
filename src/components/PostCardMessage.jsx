@@ -1,7 +1,13 @@
+import styled from 'styled-components'
+
+const MessageStyled = styled.p`
+  overflow-wrap: break-word;
+`
+
 const PostCardMessage = ({ message }) => {
   return (
     <div>
-      <p>{message}</p>
+      <MessageStyled>{message}</MessageStyled>
     </div>
   )
 }
