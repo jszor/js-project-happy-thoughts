@@ -7,6 +7,7 @@ const PostCardStyled = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 700px;
   justify-self: center;
   background-color: white;
   color: black;

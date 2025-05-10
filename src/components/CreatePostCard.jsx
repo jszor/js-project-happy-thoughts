@@ -5,6 +5,9 @@ import styled from 'styled-components'
 const CreatePostCardStyled = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  justify-self: center;
   background-color: #F2F0F0;
   color: black;
   border: 1px solid black;
