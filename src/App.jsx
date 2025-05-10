@@ -17,6 +17,11 @@ const LoadingStyled = styled.p`
   margin: 3rem;
 `
 
+const TitleStyled = styled.h1`
+  text-align: center;
+  margin: 1rem 0 3rem 0;
+`
+
 export const App = () => {
 
   const [message, setMessage] = useState('');
@@ -71,6 +76,7 @@ export const App = () => {
 
   return (
     <AppWrapper>
+      <TitleStyled>Happy Thoughts</TitleStyled>
       <CreatePostCard
       message={message} 
       setMessage={setMessage} 
