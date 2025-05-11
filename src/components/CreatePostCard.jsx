@@ -23,7 +23,7 @@ const CreatePostCard = ({ message, setMessage, onSubmit }) => {
         message={message} 
         setMessage={setMessage} 
       />
-      <CreatePostCardButton onSubmit={onSubmit} />
+      <CreatePostCardButton onSubmit={onSubmit} disabled={message.length < 5} />
     </CreatePostCardStyled>
   )
 }

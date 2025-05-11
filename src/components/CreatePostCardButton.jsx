@@ -13,12 +13,17 @@ const ButtonStyled = styled.button`
   font-size: 1rem;
   cursor: pointer;
   align-self: center;
+
+  &:disabled {
+    background-color: #B8B8B8;
+    cursor: not-allowed;
+  }
 `
 
-const CreatePostCardButton = ({ onSubmit }) => {
+const CreatePostCardButton = ({ onSubmit, disabled }) => {
 
   return (
-    <ButtonStyled onClick={onSubmit}>
+    <ButtonStyled type="submit" onClick={onSubmit} disabled={disabled}>
       ❤️ Send In ❤️
     </ButtonStyled>
   )
