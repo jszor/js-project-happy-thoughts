@@ -2,7 +2,7 @@ import CreatePostCardTextbox from './CreatePostCardTextbox'
 import CreatePostCardButton from './CreatePostCardButton'
 import styled from 'styled-components'
 
-const CreatePostCardStyled = styled.div`
+const CreatePostCardStyled = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;

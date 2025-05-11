@@ -49,7 +49,9 @@ export const App = () => {
     fetchPosts();
   }, [])
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (message.trim() === '') return
 
     try {
