@@ -6,6 +6,12 @@ const TextareaStyled = styled.textarea`
   padding: 1rem;
 `
 
+const CountStyled = styled.sup`
+  color:rgb(0, 0, 0);
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+`
+
 const CreatePostCardTextbox = ({ message, setMessage }) => {
   return (
     <>
@@ -16,8 +22,13 @@ const CreatePostCardTextbox = ({ message, setMessage }) => {
         rows="3"
         placeholder="Your thoughts here..."
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => {
+          if (e.target.value.length <= 140) {
+          setMessage(e.target.value);
+          }
+        }}
       ></TextareaStyled>
+      <CountStyled>{message.length} / 140 characters</CountStyled>
     </>
   )
 }
