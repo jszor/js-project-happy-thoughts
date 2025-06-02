@@ -27,7 +27,7 @@ const PostCardLikes = ({ likes, postId }) => {
     if (liked) return
     
     try {
-      const url = `https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${postId}/like`;
+      const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts/${postId}/like`;
       const res = await fetch(url, { method: 'POST' });
     
       if (!res.ok) {

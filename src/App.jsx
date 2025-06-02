@@ -31,7 +31,7 @@ export const App = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+      const url = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error('Failed to fetch posts');
@@ -55,7 +55,7 @@ export const App = () => {
     if (message.trim() === '') return
 
     try {
-      const url = 'https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts';
+      const url = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
