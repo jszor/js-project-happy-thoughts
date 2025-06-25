@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import CreatePostCard from './components/CreatePostCard'
-import PostCard from './components/PostCard'
+import CreatePostCard from '../components/CreatePostCard'
+import PostCard from '../components/PostCard'
 import styled from 'styled-components'
 
 const AppWrapper = styled.div`
