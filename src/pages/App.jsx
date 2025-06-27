@@ -6,6 +6,7 @@ import styled from 'styled-components'
 const AppWrapper = styled.div`
   padding: 2rem;
   font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg,rgb(227, 251, 253) 0%,rgb(166, 198, 254) 100%);
 `
 
 const PostWrapper = styled.div`
@@ -31,13 +32,20 @@ export const App = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const url = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
-      const res = await fetch(url);
+      const url = 'https://js-project-api-4xto.onrender.com/thoughts';
+      const token = localStorage.getItem('token');
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (!res.ok) {
         throw new Error('Failed to fetch posts');
       }
       const data = await res.json();
-      setPosts(data);
+      setPosts(
+        data.response.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      );
     } catch (err) {
         console.error('Error fetching posts:', err)
     } finally {
@@ -49,16 +57,62 @@ export const App = () => {
     fetchPosts();
   }, [])
 
+  // Delete post handler
+  const handleDeletePost = async (postId) => {
+    try {
+      const url = `https://js-project-api-4xto.onrender.com/thoughts/${postId}`;
+      const token = localStorage.getItem('token');
+      const res = await fetch(url, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) {
+        throw new Error('Failed to delete post');
+      }
+      setPosts(posts => posts.filter(post => post._id !== postId));
+    } catch (err) {
+      alert('Error deleting post: ' + err.message);
+    }
+  };
+
+  // Edit post handler
+  const handleEditPost = async (postId, newMessage, onSuccess) => {
+    try {
+      const url = `https://js-project-api-4xto.onrender.com/thoughts/${postId}`;
+      const token = localStorage.getItem('token');
+      const res = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ updatedMessage: newMessage })
+      });
+      if (!res.ok) {
+        throw new Error('Failed to edit post');
+      }
+      const data = await res.json();
+      setPosts(posts => posts.map(post => post._id === postId ? { ...post, message: data.response.message } : post));
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      alert('Error editing post: ' + err.message);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (message.trim() === '') return
 
     try {
-      const url = 'https://happy-thoughts-api-4ful.onrender.com/thoughts';
+      const url = 'https://js-project-api-4xto.onrender.com/thoughts';
+      const token = localStorage.getItem('token');
       const res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+         },
         body: JSON.stringify({ message })
       });
 
@@ -66,9 +120,9 @@ export const App = () => {
         throw new Error('Failed to post message')
       }
 
-      const newPost = await res.json()
+      const result = await res.json()
       
-      setPosts([newPost, ...posts]);
+      setPosts([result.response, ...posts]);
       setMessage('');
 
     } catch (err) {
@@ -93,8 +147,12 @@ export const App = () => {
               key={post._id}
               id={post._id}
               message={post.message}
-              likes={post.hearts}
-              time={new Date(post.createdAt).toLocaleString()} 
+              likes={post.likes}
+              time={new Date(post.createdAt).toLocaleString()}
+              userId={localStorage.getItem('userId')}
+              postUserId={post.userId}
+              onDelete={handleDeletePost}
+              onEdit={handleEditPost}
             />
           ))
         )}

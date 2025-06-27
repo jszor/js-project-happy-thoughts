@@ -18,35 +18,37 @@ const LikesStyled = styled.span`
   margin-left: 0.25rem;
 `
 
-const PostCardLikes = ({ likes, postId }) => {
+const PostCardLikes = ({ likes: initialLikes, postId, userId }) => {
+  const [likes, setLikes] = useState(initialLikes);
 
-  const [liked, setLiked] = useState(false)
-  const [likesCount, setLikesCount] = useState(likes)
+  // Determine if the current user has liked this post
+  const liked = likes.includes(userId);
 
   const handleLike = async () => {
-    if (liked) return
-    
     try {
-      const url = `https://happy-thoughts-api-4ful.onrender.com/thoughts/${postId}/like`;
-      const res = await fetch(url, { method: 'POST' });
-    
+      const url = `https://js-project-api-4xto.onrender.com/thoughts/${postId}/likes`;
+      const token = localStorage.getItem('token');
+      const res = await fetch(url, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       if (!res.ok) {
-        throw new Error('Failed to like post')
+        throw new Error('Failed to like/unlike post');
       }
-      setLiked(true);
-      setLikesCount(likesCount + 1);
-
+      const data = await res.json();
+      // Update likes from backend response
+      setLikes(data.response.likes);
     } catch (err) {
-      console.error('Error liking post:', err);
+      console.error('Error liking/unliking post:', err);
     }
-  }
+  };
 
   return (
     <div>
       <HeartStyled liked={liked} onClick={handleLike}>❤️</HeartStyled>
-      <LikesStyled>x {likesCount}</LikesStyled>
+      <LikesStyled>x {likes.length}</LikesStyled>
     </div>
-  )
+  );
 }
 
 
