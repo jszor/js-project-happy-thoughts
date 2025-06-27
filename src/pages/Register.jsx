@@ -110,17 +110,15 @@ const Register = () => {
         body: JSON.stringify({ name, email, password }),
       });
       const data = await response.json();
-      console.log('Login/Register response:', data);
       if (!response.ok) {
         setError(data.message || "Registration failed");
       } else {
         localStorage.setItem("token", data.response.accessToken);
         localStorage.setItem("userId", data.response.userId);
-        console.log('Token in localStorage:', localStorage.getItem('token'));
         navigate("/app");
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      console.error("Error registering:", err);
     } finally {
       setLoading(false);
     }
